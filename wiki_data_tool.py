@@ -103,13 +103,22 @@ def init(term, directory):
     
     
     def getmain(name):
-        #get main body text &exintro
+        #get full main body text
         url_main = url + 'format=json&action=query&prop=extracts&exlimit=max&excontinue&explaintext&' + urllib.parse.urlencode({'titles': name})
         data_main = requests.get(url_main).json()
-        main = data_main['query']['pages'][list(data_titles['query']['pages'].keys())[0]]['extract']#.replace(/(\r\n|\n|\r)/gm,"")
+        main = data_main['query']['pages'][list(data_main['query']['pages'].keys())[0]]['extract']#.replace(/(\r\n|\n|\r)/gm,"")
+        #download main
+        f = open(directory + term + '/main_full.txt','w+', encoding='utf-8')
+        f.write(main)
+        f.close()
+    
+        #get intro
+        url_intro = url + 'format=json&action=query&prop=extracts&exlimit=max&exintro&explaintext&' + urllib.parse.urlencode({'titles': name})
+        data_intro = requests.get(url_intro).json()
+        intro = data_intro['query']['pages'][list(data_intro['query']['pages'].keys())[0]]['extract']#.replace(/(\r\n|\n|\r)/gm,"")
         #download main
         f = open(directory + term + '/main.txt','w+', encoding='utf-8')
-        f.write(main)
+        f.write(intro)
         f.close()
         return('done')
     
