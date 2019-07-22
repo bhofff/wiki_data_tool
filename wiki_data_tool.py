@@ -92,7 +92,7 @@ def init(term, directory):
         if 'ImageDescription' in data_desc['query']['pages'][list(data_desc['query']['pages'].keys())[0]]['imageinfo'][0]['extmetadata']:
             desc = data_desc['query']['pages'][list(data_desc['query']['pages'].keys())[0]]['imageinfo'][0]['extmetadata']['ImageDescription']['value']
         else:
-            print('Error: Image ' + str(j) + ext + ' does not have description');
+            print('Error: Image ' + str(j) + ext + ' does not have description. ' + str(j) + '.txt will read "N/A"');
             desc = 'N/A';
         #download descriptions
         desc = strip_tags(desc)
@@ -103,8 +103,8 @@ def init(term, directory):
     
     
     def getmain(name):
-        #get main body text
-        url_main = url + 'format=json&action=query&prop=extracts&exlimit=max&exintro&explaintext&' + urllib.parse.urlencode({'titles': name})
+        #get main body text &exintro
+        url_main = url + 'format=json&action=query&prop=extracts&exlimit=max&excontinue&explaintext&' + urllib.parse.urlencode({'titles': name})
         data_main = requests.get(url_main).json()
         main = data_main['query']['pages'][list(data_titles['query']['pages'].keys())[0]]['extract']#.replace(/(\r\n|\n|\r)/gm,"")
         #download main
@@ -124,6 +124,6 @@ def init(term, directory):
                 break
             else:
                 geturls(imagename, i)
-        print(imagecount + ' files created')
+        print(str(imagecount) + ' files created')
         getmain(term)
             
