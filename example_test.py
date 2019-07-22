@@ -1,7 +1,7 @@
 '''
 Created on Jul 17, 2019
 
-@author: flofl
+@author: Brandon Hoffmann
 '''
 
 import wiki_data_tool
